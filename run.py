@@ -20,20 +20,20 @@ class RandomWalkRobot(Robot):
     
     def update(self):
         self.turn(self.smell())
+        print("smell")
         while True:
-            IR = self.distance()
-            print(IR[0])
-            if IR[0] <= 20:
-                IR = self.distance()
+            if self.distance()[0] <= 20:
+                print(self.distance()[0])
                 self.turn(-2)
-            elif IR[1] <= 20:
-                IR = self.distance()
+            elif self.distance()[1] <= 20:
                 self.turn(-2)
-            elif IR[7] <= 20:
-                IR = self.distance()
+                print("right")
+            elif self.distance()[7] <= 20:
                 self.turn(2)
+                print("left")
             else:
                 self.move(2)
+                print("hi")
                 break
 
 
