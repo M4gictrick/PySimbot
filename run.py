@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 Config.set('kivy', 'log_level', 'info')
 
 # update robot every 0.5 seconds (2 frames per sec)
-REFRESH_INTERVAL = 1/200
+REFRESH_INTERVAL = 1/300
 
 
 class RunRobot(Robot):
@@ -23,23 +23,25 @@ class RunRobot(Robot):
             self.turn(-1)
             print("front obstacle")
             print(self.smell_nearest())
-        elif IR[1] <= 15:
+        elif IR[1] <= 15 and IR[0] >= 15:
             print("left")
             self.turn(-1)
             print(self.smell_nearest())
-        elif IR[7] <= 15:
+        elif IR[7] <= 15 and IR[0] >= 15:
             self.turn(1)
             print("right")
+            if IR[1] <= 15:
+                self.turn(1)
             print(self.smell_nearest())
         elif IR[0] >= 20 and IR[1] >= 20 and IR[7] >= 20 and IR[6] >= 20 and IR[2] >= 20:
             if -1 <= self.smell_nearest() <= 1:
                 print("smell")
                 self.move(3)
-            elif self.smell_nearest() < -1:
+            elif self.smell_nearest() < -1 and IR[7] >= 15:
                 print("smell 1")
                 self.turn(-2)
                 print(self.smell_nearest())
-            elif self.smell_nearest() > 1:
+            elif self.smell_nearest() > 1 and IR[1] >= 15:
                 print("smell 2")
                 self.turn(2)
                 print(self.smell_nearest())
